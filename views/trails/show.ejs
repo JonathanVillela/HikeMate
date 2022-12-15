@@ -1,32 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout('layouts/boilerplate') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show</title>
-</head>
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card" style="width: 18rem;">
+                <img src="<%= trail.image %> " class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= trail.title %>
+                    </h5>
+                    <p class="card-text">
+                        <%= trail.description %>
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <%= trail.location %>
+                    </li>
+                    <li class="list-group-item">$<%= trail.price %>
+                    </li>
 
-<body>
+                </ul>
+                <div class="card-body">
+                    <a class='card-link btn btn-info' href="/trails/<%= trail._id %>/edit">Edit</a>
+                    <form class='d-inline' action="/trails/<%= trail._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <h1>
         <%= trail.title %>
     </h1>
-    <h1>
+    <h2>
         <%= trail.location %>
-    </h1>
-
+    </h2>
+    <img src="<%= trail.image %> " alt="">
+    <p>
+        <%= trail.description %>
+    </p>
+    <p><a href="/trails/<%= trail._id %>/edit">Edit</a>
+    </p>
+    <a href="/trails">All Trails</a>
+    <p>
     <footer>
-        <p><a href="/trails/<%= trail._id %>/edit">Edit</a>
-        </p>
-        <a href="/trails">All Trails</a>
-        <p>
         <form action="/trails/<%= trail._id %>?_method=DELETE" method="POST">
             <button>Delete</button>
         </form>
         </p>
     </footer>
-
-</body>
-
-</html>

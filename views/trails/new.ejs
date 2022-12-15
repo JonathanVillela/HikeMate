@@ -1,29 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout('layouts/boilerplate') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Trail</title>
-</head>
-
-<body>
-    <form action="/trails" method="POST">
-        <div>
-            <label for="title">Title</label>
-            <!-- //syntax used for storing data in this label via POST -->
-            <input type="text" id="title" name="trail[title]">
+    <div class="row">
+        <h1 class="text-center">New Trail</h1>
+        <div class="col-6 offset-3">
+            <form action="/trails" method="POST">
+                <div class="mb-3">
+                    <label class='form-label' for="title">Title</label>
+                    <!-- //syntax used for storing data in this label via POST -->
+                    <input class="form-control" type="text" id="title" name="trail[title]">
+                </div>
+                <div class="mb-3">
+                    <label class='form-label' for="location">Location</label>
+                    <input class="form-control" type="text" id="location" name="trail[location]">
+                </div>
+                <div class="mb-3">
+                    <label class='form-label' for="image">Image URL</label>
+                    <input class="form-control" type="text" id="image" name="trail[image]">
+                </div>
+                <div class="mb-4">
+                    <div class="input-group mb-4">
+                        <span class="input-group-text">$</span>
+                        <input type="text" class="form-control" name="trail[price]"
+                            aria-label="Amount (to the nearest dollar)">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class='form-label' for="description">Description</label>
+                    <textarea class="form-control" type="text" id:"description" name="trail[description]"></textarea>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-success">Add Trail</button>
+                </div>
+                <a href="/trails">All Trails</a>
+            </form>
         </div>
-        <div>
-            <label for="location">Location</label>
-            <input type="text" id="location" name="trail[location]">
-        </div>
-        <button>Add Trail</button>
-    </form>
-
-    <a href="/trails">All Trails</a>
-
-</body>
-
-</html>
+    </div>
