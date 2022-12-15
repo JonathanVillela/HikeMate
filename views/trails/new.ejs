@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Trail</title>
+</head>
+
+<body>
+    <form action="/trails" method="POST">
+        <div>
+            <label for="title">Title</label>
+            <!-- //syntax used for storing data in this label via POST -->
+            <input type="text" id="title" name="trail[title]">
+        </div>
+        <div>
+            <label for="location">Location</label>
+            <input type="text" id="location" name="trail[location]">
+        </div>
+        <button>Add Trail</button>
+    </form>
+
+    <a href="/trails">All Trails</a>
+
+</body>
+
+</html>

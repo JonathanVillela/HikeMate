@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Trail</title>
+</head>
+
+<body>
+    <form action="/trails/<%=trail._id%>?_method=PUT" method="POST">
+        <div>
+            <label for="title">Title</label>
+            <input type="text" id="title" name="trail[title]" value="<%= trail.title  %>">
+        </div>
+        <div>
+            <label for="location">Location</label>
+            <input type="text" id="location" name="trail[location]" value="<%= trail.location  %>">
+        </div>
+        <button>Update Trail</button>
+    </form>
+
+    <a href="/trails<%= trail._id  %>">Back to Trails</a>
+
+</body>
+
+</html>
