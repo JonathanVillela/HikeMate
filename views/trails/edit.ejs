@@ -2,33 +2,49 @@
     <div class="row">
         <h1 class="text-center">Edit Trail</h1>
         <div class="col-6 offset-3">
-            <form action="/trails/<%=trail._id%>?_method=PUT" method="POST">
+            <form action="/trails/<%=trail._id%>?_method=PUT" method="POST" novalidate class="validated-form">
                 <div class="mb-3">
                     <label class='form-label' for="title">Trail Name</label>
-                    <!-- //syntax used for storing data in this label via POST -->
-                    <input class="form-control" type="text" id="title" name="trail[title] value=" <%=trail.title %>">
+                    <input class="form-control" type="text" id="title" name="trail[title]" required
+                        value=" <%=trail.title %>">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class='form-label' for="location">Location</label>
-                    <input class="form-control" type="text" id="location" name="trail[location]"
+                    <input class="form-control" type="text" id="location" name="trail[location]" required
                         value="<%= trail.location  %>">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class='form-label' for="image">Image URL</label>
-                    <input class="form-control" type="text" id="image" name="trail[image]" value="<%= trail.image  %>">
+                    <input class="form-control" type="text" id="image" name="trail[image]" required
+                        value="<%= trail.image  %>">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                 </div>
                 <div class="mb-4">
                     <div class="input-group mb-4">
                         <span class="input-group-text">$</span>
-                        <input type="text" class="form-control" name="trail[price] value=" <%=trail.price %>"
-                        aria-label="Amount (to the nearest dollar)">
+                        <input type="text" class="form-control" name="trail[price]" required value=" <%=trail.price %>"
+                            aria-label="Amount (to the nearest dollar)">
                         <span class="input-group-text">.00</span>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label class='form-label' for="description">Description</label>
-                    <textarea class="form-control" type="text" id:"description"
-                        name="trail[description]"><%= trail.description  %> </textarea>
+                    <textarea class="form-control" type="text" id:"description" name="trail[description]"
+                        required><%= trail.description  %> </textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                 </div>
                 <div class="mb-3">
                     <button class="btn btn-success">Update Trail</button>
