@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path')
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
+const Joi = require('joi');
+const { trailSchema } = require('./validationSchema.js');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/expressError');
 const methodOverride = require('method-override');
@@ -25,6 +27,16 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.urlencoded({ extended: true })); //parse POST reqs
 app.use(methodOverride('_method'));
 
+const validateTrail = (req, res, next) => {
+    const { error } = trailSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.maps(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } else {
+        next();
+    }
+}
+
 app.get('/', (req, res) => {
     res.render('home')
 })
@@ -38,7 +50,7 @@ app.get('/trails/new', (req, res) => {
     res.render('trails/new');
 })
 
-app.post('/trails', catchAsync(async (req, res, next) => {
+app.post('/trails', validateTrail, catchAsync(async (req, res, next) => {
     const trail = new Trail(req.body.trail);
     await trail.save();
     res.redirect(`/trails/${trail._id}`) //directs to new trail
@@ -54,7 +66,7 @@ app.get('/trails/:id/edit', catchAsync(async (req, res, next) => {
     res.render('trails/edit', { trail });
 }))
 
-app.put('/trails/:id', catchAsync(async (req, res, next) => {
+app.put('/trails/:id', validateTrail, catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const trail = await Trail.findByIdAndUpdate(id, { ...req.body.trail });
     res.redirect(`/trails/${trail._id}`)
