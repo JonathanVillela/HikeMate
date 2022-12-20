@@ -6,7 +6,14 @@ const TrailSchema = new Schema({
     image: String,
     length: Number,
     description: String,
-    location: String
+    location: String,
+    reviews: [
+        {
+            // stipulates object ID from review model
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    ]
 });
 
 module.exports = mongoose.model('Trail', TrailSchema);

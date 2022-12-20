@@ -26,5 +26,17 @@
                         <button class="btn btn-danger">Delete</button>
                 </div>
             </div>
+            <h2>Review & Rate this trail</h2>
+            <form action="/trails/<%= trail._id%>/reviews" method="POST">
+                <div class="mb-3">
+                    <label class="form-label" for="rating">Rating</label>
+                    <input id="rating" class="form-range" type="range" min="1" max="5" name="review[rating]">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="body">Review</label>
+                    <textarea class='form-control' name="review[body]" id="body" cols="30" rows="3"></textarea>
+                </div>
+                <button class="btn btn-success mb-3">Submit</button>
+            </form>
         </div>
     </div>
