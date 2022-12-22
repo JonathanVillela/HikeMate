@@ -3,11 +3,13 @@ const path = require('path')
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const Joi = require('joi');
-const { trailSchema } = require('./validationSchema.js');
+const { trailSchema, reviewSchema } = require('./validationSchema.js');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/expressError');
 const methodOverride = require('method-override');
 const Trail = require('./models/trail');
+const Review = require('./models/review');
+
 
 
 mongoose.connect('mongodb://localhost:27017/HikeMate');
@@ -37,6 +39,16 @@ const validateTrail = (req, res, next) => {
         next();
     }
 };
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.maps(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } else {
+        next();
+    }
+}
 
 
 app.get('/', (req, res) => {
@@ -80,8 +92,13 @@ app.delete('/trails/:id', catchAsync(async (req, res, next) => {
     res.redirect('/trails');
 }));
 
-app.post('/trails/:id/reviews', catchAsync(async (req, res) => {
-    res.send("functional")
+app.post('/trails/:id/reviews', validateReview, catchAsync(async (req, res) => {
+    const trail = await Trail.findById(req.params.id);
+    const review = new Review(req.body.review);
+    trail.reviews.push(review);
+    await review.save();
+    await trail.save();
+    res.redirect(`/trails/${trail._id}`);
 }));
 
 app.all('*', (req, res, next) => {
