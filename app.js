@@ -76,7 +76,7 @@ app.get('/trails/:id', catchAsync(async (req, res, next) => {
 }));
 
 app.get('/trails/:id/edit', catchAsync(async (req, res, next) => {
-    const trail = await Trail.findById(req.params.id)
+    const trail = await Trail.findById(req.params.id).populate('reviews');
     res.render('trails/edit', { trail });
 }));
 
@@ -100,6 +100,15 @@ app.post('/trails/:id/reviews', validateReview, catchAsync(async (req, res) => {
     await trail.save();
     res.redirect(`/trails/${trail._id}`);
 }));
+
+app.delete('/trails/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Trail.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });//removes from array
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/trails/${id}`);
+}))
+
+
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))

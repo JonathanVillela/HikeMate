@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const review = require('./review');
 const Schema = mongoose.Schema
 
 const TrailSchema = new Schema({
@@ -15,5 +16,16 @@ const TrailSchema = new Schema({
         }
     ]
 });
+
+//Deletes trail reviews when corresponding trail is deleted 
+TrailSchema.post('findOneAndDelete', async function (doc) {
+    if (doc) {
+        await review.deleteMany({
+            _id: {
+                $in: doc.reviews
+            }
+        })
+    }
+})
 
 module.exports = mongoose.model('Trail', TrailSchema);
