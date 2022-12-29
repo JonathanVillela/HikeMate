@@ -26,6 +26,7 @@ router.post('/', validateReview, catchAsync(async (req, res) => {
     trail.reviews.push(review);
     await review.save();
     await trail.save();
+    req.flash('success', 'Review successfully posted!');
     res.redirect(`/trails/${trail._id}`);
 }));
 
@@ -33,6 +34,7 @@ router.delete('/:reviewId', catchAsync(async (req, res) => {
     const { id, reviewId } = req.params;
     await Trail.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });//removes from array
     await Review.findByIdAndDelete(reviewId);
+    req.flash('success', 'Trail deleted.');
     res.redirect(`/trails/${id}`);
 }))
 
