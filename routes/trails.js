@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-
-
 const catchAsync = require('../utils/catchAsync');
 const { trailSchema, reviewSchema } = require('../validationSchema.js');
+const { isLoggedIn } = require('../middleware');
 
 const ExpressError = require('../utils/expressError');
 const Trail = require('../models/trail');
@@ -19,24 +18,23 @@ const validateTrail = (req, res, next) => {
     }
 };
 
-
 router.get('/', catchAsync(async (req, res, next) => {
     const trails = await Trail.find({});
     res.render('trails/index', { trails })
 }));
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('trails/new');
 });
 
-router.post('/', validateTrail, catchAsync(async (req, res, next) => {
+router.post('/', isLoggedIn, validateTrail, catchAsync(async (req, res, next) => {
     const trail = new Trail(req.body.trail);
     await trail.save();
     req.flash('success', 'Successfully contributed a new trail!');
     res.redirect(`/trails/${trail._id}`)
 }));
 
-router.get('/:id', catchAsync(async (req, res) => {
+router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const trail = await Trail.findById(req.params.id).populate('reviews');
     if (!trail) {
         req.flash('error', 'Trail does not or no longer exists.');
@@ -54,14 +52,14 @@ router.get('/:id/edit', catchAsync(async (req, res, next) => {
     res.render('trails/edit', { trail });
 }));
 
-router.put('/:id', validateTrail, catchAsync(async (req, res,) => {
+router.put('/:id', isLoggedIn, validateTrail, catchAsync(async (req, res,) => {
     const { id } = req.params;
     const trail = await Trail.findByIdAndUpdate(id, { ...req.body.trail });
     req.flash('success', 'Trail successfully edited.');
     res.redirect(`/trails/${trail._id}`)
 }));
 
-router.delete('/:id', catchAsync(async (req, res, next) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res, next) => {
     const { id } = req.params;
     await Trail.findByIdAndDelete(id);
     req.flash('success', 'Trail deleted.');
