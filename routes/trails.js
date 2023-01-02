@@ -25,8 +25,15 @@ router.post('/', isLoggedIn, validateTrail, catchAsync(async (req, res, next) =>
     res.redirect(`/trails/${trail._id}`)
 }));
 
+// Populate author per review
 router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
-    const trail = await Trail.findById(req.params.id).populate('reviews').populate('author');
+    const trail = await Trail.findById(req.params.id).populate({
+        path: 'reviews',
+        populate: {
+            path: 'author'
+        }
+    }).populate('author');
+    console.log(trail);
     if (!trail) {
         req.flash('error', 'Trail does not or no longer exists.');
         return res.redirect('/trails');
