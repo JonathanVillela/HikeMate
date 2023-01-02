@@ -16,16 +16,21 @@
                     <li class="list-group-item">
                         <%= trail.location %>
                     </li>
-                    <li class="list-group-item">$<%= trail.price %>
-                    </li>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            Submitted by <%= trail.author.username %>
+                        </li>
+                        <li class="list-group-item">$<%= trail.price %>
+                        </li>
 
-                </ul>
-                <div class="card-body">
-                    <a class='card-link btn btn-info' href="/trails/<%= trail._id %>/edit">Edit</a>
-                    <form class='d-inline' action="/trails/<%= trail._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-danger">Delete</button>
-                    </form>
-                </div>
+                    </ul>
+                    <% if(currentUser && trail.author.equals(currentUser._id)) %>
+                        <div class="card-body">
+                            <a class='card-link btn btn-info' href="/trails/<%= trail._id %>/edit">Edit</a>
+                            <form class='d-inline' action="/trails/<%= trail._id %>?_method=DELETE" method="POST">
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
             </div>
         </div>
         <div class="col-6">

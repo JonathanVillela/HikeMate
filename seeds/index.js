@@ -21,6 +21,7 @@ const seedDB = async () => {
         const random1000 = Math.floor(Math.random() * 1000);
         const length = Math.floor(Math.random() * 20) + 10
         const hike = new Trail({
+            author: '63b2e5f47b09e36fd904a068',
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             title: `${sample(descriptors)} ${sample(places)}`,
             image: 'https://source.unsplash.com/collection/87218202',

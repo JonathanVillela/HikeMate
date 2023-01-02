@@ -8,6 +8,10 @@ const TrailSchema = new Schema({
     length: Number,
     description: String,
     location: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     reviews: [
         {
             // stipulates object ID from review model
