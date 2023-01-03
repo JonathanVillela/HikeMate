@@ -1,69 +1,23 @@
 const express = require('express');
 const router = express.Router();
+const trails = require('../controllers/trails');
 const catchAsync = require('../utils/catchAsync');
 const { trailSchema, reviewSchema } = require('../validationSchema.js');
 const { isLoggedIn, isAuthor, validateTrail } = require('../middleware');
 
 const Trail = require('../models/trail');
 
+router.route('/')
+    .get(catchAsync(trails.index))
+    .post(isLoggedIn, validateTrail, catchAsync(trails.createTrail))
 
+router.get('/new', isLoggedIn, trails.renderNewForm)
 
-router.get('/', catchAsync(async (req, res, next) => {
-    const trails = await Trail.find({});
-    res.render('trails/index', { trails })
-}));
+router.route('/:id')
+    .get(catchAsync(trails.showTrail))
+    .put(isLoggedIn, isAuthor, validateTrail, catchAsync(trails.updateTrail))
+    .delete(isLoggedIn, isAuthor, catchAsync(trails.deleteTrail));
 
-router.get('/new', isLoggedIn, (req, res) => {
-    res.render('trails/new');
-});
-
-router.post('/', isLoggedIn, validateTrail, catchAsync(async (req, res, next) => {
-    const trail = new Trail(req.body.trail);
-    trail.author = request.user._id;
-    await trail.save();
-    req.flash('success', 'Successfully contributed a new trail!');
-    res.redirect(`/trails/${trail._id}`)
-}));
-
-// Populate author per review
-router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
-    const trail = await Trail.findById(req.params.id).populate({
-        path: 'reviews',
-        populate: {
-            path: 'author'
-        }
-    }).populate('author');
-    console.log(trail);
-    if (!trail) {
-        req.flash('error', 'Trail does not or no longer exists.');
-        return res.redirect('/trails');
-    }
-    res.render('trails/show', { trail });
-}));
-
-router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res, next) => {
-    const { id } = req.params;
-    const trail = await Trail.findById(id)
-    if (!trail) {
-        req.flash('error', 'Trail does not or no longer exists.');
-        return res.redirect('/trails');
-    }
-    res.render('trails/edit', { trail });
-}));
-
-router.put('/:id', isLoggedIn, isAuthor, validateTrail, catchAsync(async (req, res,) => {
-    const { id } = req.params;
-
-    // const trail = await Trail.findByIdAndUpdate(id, { ...req.body.trail });
-    req.flash('success', 'Trail successfully edited.');
-    res.redirect(`/trails/${trail._id}`)
-}));
-
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    await Campground.findByIdAndDelete(id);
-    req.flash('success', 'Successfully deleted campground')
-    res.redirect('/campgrounds');
-}));
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(trails.renderEditForm))
 
 module.exports = router;
