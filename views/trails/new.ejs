@@ -3,7 +3,7 @@
     <div class="row">
         <h1 class="text-center">New Trail</h1>
         <div class="col-6 offset-3">
-            <form action="/trails" method="POST" novalidate class="validated-form">
+            <form action="/trails" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class='form-label' for="title">Title</label>
                     <!-- //syntax used for storing data in this label via POST -->
@@ -12,13 +12,14 @@
                         Looks good!
                     </div>
                 </div>
-                <div class="mb-3">
+                <input type="file" name="image" id="" multiple>
+                <!-- <div class="mb-3">
                     <label class='form-label' for="location">Location</label>
                     <input class="form-control" type="text" id="location" name="trail[location]" required>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
-                </div>
+                </div> -->
                 <div class="mb-3">
                     <label class='form-label' for="image">Image URL</label>
                     <input class="form-control" type="text" id="image" name="trail[image]" required>
