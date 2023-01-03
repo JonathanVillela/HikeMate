@@ -11,7 +11,8 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createTrail = async (req, res, next) => {
     const trail = new Trail(req.body.trail);
-    trail.author = request.user._id;
+    trail.images = req.files.map(f => ({ url: f.path, filename: f.filename }))
+    trail.author = req.user._id;
     await trail.save();
     req.flash('success', 'Successfully contributed a new trail!');
     res.redirect(`/trails/${trail._id}`)

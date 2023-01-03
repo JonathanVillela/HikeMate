@@ -9,6 +9,13 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
     cloudinary,
-    folder: "HikeMate",
-    allowedFormats: ['jpeg', 'png', 'jpg']
+    params: {
+        folder: "HikeMate",
+        allowedFormats: ['jpeg', 'png', 'jpg']
+    }
 })
+
+module.exports = {
+    cloudinary,
+    storage
+}

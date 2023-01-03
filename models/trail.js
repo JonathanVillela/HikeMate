@@ -4,7 +4,12 @@ const Schema = mongoose.Schema
 
 const TrailSchema = new Schema({
     title: String,
-    image: String,
+    images: [
+        {
+            url: String,
+            filename: String
+        }
+    ],
     length: Number,
     description: String,
     location: String,
