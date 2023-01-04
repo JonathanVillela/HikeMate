@@ -1,4 +1,5 @@
 const Trail = require('../models/trail');
+const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res, next) => {
     const trails = await Trail.find({});
@@ -14,6 +15,7 @@ module.exports.createTrail = async (req, res, next) => {
     trail.images = req.files.map(f => ({ url: f.path, filename: f.filename }))
     trail.author = req.user._id;
     await trail.save();
+    console.log(trail);
     req.flash('success', 'Successfully contributed a new trail!');
     res.redirect(`/trails/${trail._id}`)
 }
@@ -43,10 +45,20 @@ module.exports.renderEditForm = async (req, res, next) => {
     res.render('trails/edit', { trail });
 }
 
-module.exports.updateTrail = async (req, res,) => {
+module.exports.updateTrail = async (req, res) => {
     const { id } = req.params;
-    // const trail = await Trail.findByIdAndUpdate(id, { ...req.body.trail });
-    req.flash('success', 'Trail successfully edited.');
+    console.log(req.body);
+    const trail = await Trail.findByIdAndUpdate(id, { ...req.body.trail });
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    trail.images.push(...imgs); //pushes new images, no deletion of existing img
+    await trail.save();
+    if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
+        await trail.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
+    }
+    req.flash('success', 'Successfully updated trail!');
     res.redirect(`/trails/${trail._id}`)
 }
 

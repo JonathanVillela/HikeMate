@@ -2,7 +2,8 @@
     <div class="row">
         <h1 class="text-center">Edit Trail</h1>
         <div class="col-6 offset-3">
-            <form action="/trails/<%=trail._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+            <form action="/trails/<%=trail._id%>?_method=PUT" method="POST" novalidate class="validated-form"
+                enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class='form-label' for="title">Trail Name</label>
                     <input class="form-control" type="text" id="title" name="trail[title]" required
@@ -19,14 +20,10 @@
                         Looks good!
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label class='form-label' for="image">Image URL</label>
-                    <input class="form-control" type="text" id="image" name="trail[image]" required
-                        value="<%= trail.image  %>">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
+                <!-- <div class="mb-3">
+                    <label class='form-label' for="image">Add images</label>
+                    <input type="file" name="image" id="image" multiple>
+                </div> -->
                 <div class="mb-4">
                     <div class="input-group mb-4">
                         <span class="input-group-text">$</span>
@@ -47,9 +44,30 @@
                     </div>
                 </div>
                 <div class="mb-3">
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" id="image" name="image" multiple>
+                        <label class="input-group-text" for="image">Upload</label>
+                    </div>
+                </div>
+                <h6>Delete Images: </h6>
+                <div class="row row-cols-1 row-cols-md-4 g-4 mb-3">
+                    <% trail.images.forEach((image, i)=> { %>
+                        <div class="col">
+                            <div class="card">
+                                <label for="image-<%= i %>"><img class="card-img" src="<%= image.thumbnail %>" alt="">
+                                    <div class="card-img-overlay text-end pt-1 pe-2">
+                                        <input class="form-check-input" type="checkbox" name="deleteImages[]"
+                                            value="<%= image.filename %>" id="image-<%= i %>">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+                <div class="mb-3">
                     <button class="btn btn-success">Update Trail</button>
                 </div>
-                <a href="/trails">All Trails</a>
+                <a href="/trails/<%= trail._id%>">All Trails</a>
             </form>
         </div>
     </div>

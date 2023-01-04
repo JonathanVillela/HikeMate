@@ -18,7 +18,7 @@ router.get('/new', isLoggedIn, trails.renderNewForm)
 
 router.route('/:id')
     .get(catchAsync(trails.showTrail))
-    .put(isLoggedIn, isAuthor, validateTrail, catchAsync(trails.updateTrail))
+    .put(isLoggedIn, isAuthor, upload.array('image'), validateTrail, catchAsync(trails.updateTrail))
     .delete(isLoggedIn, isAuthor, catchAsync(trails.deleteTrail));
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(trails.renderEditForm))

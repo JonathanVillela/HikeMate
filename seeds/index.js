@@ -24,9 +24,25 @@ const seedDB = async () => {
             author: '63b2e5f47b09e36fd904a068',
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             title: `${sample(descriptors)} ${sample(places)}`,
-            image: 'https://source.unsplash.com/collection/87218202',
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos eum explicabo accusantium dignissimos cumque atque et harum, possimus illum dicta, quam ipsum nesciunt sint tempore accusamus amet delectus animi architectoVoluptas voluptates magnam saepe cum doloremque ut debitis vero iure dignissimos.Necessitatibus recusandae commodi nesciunt iure unde amet, molestiae nihil incidunt velit ducimus suscipit quisquam architecto voluptatum sint, ipsa exercitationem.Eius minima delectus illum eveniet nesciunt quasi! Distinctio libero laboriosam corrupti delectus fuga similique illo voluptas dolor, inventore itaque alias facilis animi dolores eos accusamus et odio deserunt consequuntur veritatis!',
-            length
+            length,
+            images: [
+                {
+                    url: 'https://res.cloudinary.com/dxng855av/image/upload/v1672854204/HikeMate/zwgjutmi5cugn5ockqzp.jpg',
+                    filename: 'HikeMate/zwgjutmi5cugn5ockqzp',
+
+                },
+                {
+                    url: 'https://res.cloudinary.com/dxng855av/image/upload/v1672854204/HikeMate/picek3ag1irvx2hjqy8e.jpg',
+                    filename: 'HikeMate/picek3ag1irvx2hjqy8e',
+
+                },
+                {
+                    url: 'https://res.cloudinary.com/dxng855av/image/upload/v1672854204/HikeMate/bbxgt4qqe5wuyunrpjmg.jpg',
+                    filename: 'HikeMate/bbxgt4qqe5wuyunrpjmg',
+
+                }
+            ]
         })
         await hike.save();
     }
