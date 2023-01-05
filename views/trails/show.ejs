@@ -1,8 +1,11 @@
 <% layout('layouts/boilerplate')%>
     <link rel="stylesheet" href="/public/stylesheets/stars.css">
 
+
+
     <div class="row">
         <div class="col-6">
+            <div id='map' style='width: 100%; height: 300px;'></div>
             <div id="trailCarousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <% trail.images.forEach((img, i)=> { %>
@@ -116,3 +119,10 @@
                         <% } %>
         </div>
     </div>
+
+    <script>
+        const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+        const trail = '<% - JSON.parse(trail) %>'
+    </script>
+
+    <script src="/public/showPageMap.js"></script>

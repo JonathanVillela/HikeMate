@@ -14,12 +14,18 @@ ImageSchema.virtual('thumbnail').get(function () {
 
 const TrailSchema = new Schema({
     title: String,
-    images: [
-        {
-            url: String,
-            filename: String
+    images: [ImageSchema],
+    geometry: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
         }
-    ],
+    },
     length: Number,
     description: String,
     location: String,
