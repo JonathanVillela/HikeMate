@@ -5,7 +5,6 @@
 
     <div class="row">
         <div class="col-6">
-            <div id='map' style='width: 100%; height: 300px;'></div>
             <div id="trailCarousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <% trail.images.forEach((img, i)=> { %>
@@ -14,24 +13,19 @@
                         </div>
                         <% }) %>
 
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="..." alt="Second slide">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="..." alt="Third slide">
-                            </div>
                 </div>
                 <% if(trail.images.length> 1) {%>
-                    <a class="carousel-control-prev" href="#trailCarousel" role="button" data-bs-slide="prev">
+                    <a class="carousel-control-prev" href="#trailCarousel" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only"></span>
+                        <span class="sr-only">Previous</span>
                     </a>
-                    <a class="carousel-control-next" href="#trailCarousel" role="button" data-bs-slide="next">
+                    <a class="carousel-control-next" href="#trailCarousel" role="button" data-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only"></span>
+                        <span class="sr-only">Next</span>
                     </a>
                     <% } %>
             </div>
+
             <div class="card mb-3">
                 <div class="card-body">
                     <h5 class="card-title">
@@ -64,6 +58,8 @@
 
         </div>
         <div class="col-6">
+            <div id='map' style='width: 100%; height: 300px;'></div>
+
             <% if(currentUser){ %>
                 <h2>Leave a Review</h2>
                 <form action="/trails/<%=trail._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
@@ -86,7 +82,7 @@
                         <label for="first-rate5" title="Amazing">5 stars</label>
                     </fieldset>
                     <div class="mb-3">
-                        <label class="form-label" for="body">What'd you think?</label>
+                        <label class="form-label" for="body">Review Text</label>
                         <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3"
                             required></textarea>
                         <div class="valid-feedback">
@@ -121,8 +117,8 @@
     </div>
 
     <script>
-        const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
-        const trail = '<% - JSON.parse(trail) %>'
+        const mapToken='<%-process.env.MAPBOX_TOKEN%>';
+        const trail= <%- JSON.stringify(trail)%>
     </script>
 
     <script src="/public/showPageMap.js"></script>

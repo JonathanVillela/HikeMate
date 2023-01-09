@@ -1,14 +1,14 @@
-const express = require('express');
-const router = express.Router();
-const trails = require('../controllers/trails');
-const catchAsync = require('../utils/catchAsync');
-const { trailSchema, reviewSchema } = require('../validationSchema.js');
-const { isLoggedIn, isAuthor, validateTrail } = require('../middleware');
-const multer = require('multer');
-const { storage } = require('../cloudinary');
-const upload = multer({ storage });
+const express=require('express');
+const router=express.Router();
+const trails=require('../controllers/trails');
+const catchAsync=require('../utils/catchAsync');
+const { trailSchema, reviewSchema }=require('../validationSchema.js');
+const { isLoggedIn, isAuthor, validateTrail }=require('../middleware');
+const multer=require('multer');
+const { storage }=require('../cloudinary');
+const upload=multer({ storage });
 
-const Trail = require('../models/trail');
+const Trail=require('../models/trail');
 
 router.route('/')
     .get(catchAsync(trails.index))
@@ -23,4 +23,4 @@ router.route('/:id')
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(trails.renderEditForm))
 
-module.exports = router;
+module.exports=router;

@@ -1,34 +1,34 @@
 // EV to safeguard photo storage
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV!=='production') {
     require('dotenv').config();
 }
 
-const express = require('express');
-const path = require('path')
-const mongoose = require('mongoose');
-const ejsMate = require('ejs-mate');
-const session = require('express-session');
-const flash = require('connect-flash')
-const ExpressError = require('./utils/expressError');
-const methodOverride = require('method-override');
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
-const User = require('./models/user');
+const express=require('express');
+const path=require('path')
+const mongoose=require('mongoose');
+const ejsMate=require('ejs-mate');
+const session=require('express-session');
+const flash=require('connect-flash')
+const ExpressError=require('./utils/expressError');
+const methodOverride=require('method-override');
+const passport=require('passport');
+const LocalStrategy=require('passport-local');
+const User=require('./models/user');
 
 
-const userRoutes = require('./routes/users');
-const trailRoutes = require('./routes/trails');
-const reviewRoutes = require('./routes/reviews');
+const userRoutes=require('./routes/users');
+const trailRoutes=require('./routes/trails');
+const reviewRoutes=require('./routes/reviews');
 
 mongoose.connect('mongodb://localhost:27017/HikeMate');
 
-const db = mongoose.connection;
+const db=mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
     console.log('database connected');
 });
 
-const app = express();
+const app=express();
 
 
 app.engine('ejs', ejsMate)
@@ -39,14 +39,14 @@ app.use(express.urlencoded({ extended: true })); //parse POST reqs
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-const sessionConfig = {
+const sessionConfig={
     secret: 'somethingsecret',
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000 * 60 * 60 * 24 * 7
+        expires: Date.now()+1000*60*60*24*7,
+        maxAge: 1000*60*60*24*7
     }
 }
 app.use(session(sessionConfig))
@@ -60,11 +60,12 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
 app.use((req, res, next) => {
     console.log(req.session)
-    res.locals.currentUser = req.user;
-    res.locals.success = req.flash('success')
-    res.locals.error = req.flash('error');
+    res.locals.currentUser=req.user;
+    res.locals.success=req.flash('success')
+    res.locals.error=req.flash('error');
     next();
 });
 
@@ -82,10 +83,12 @@ app.all('*', (req, res, next) => {
 
 // Error Handling: Internal Server Error
 app.use((err, req, res, next) => {
-    const { statusCode = 500 } = err;
-    if (!err.message) err.message = 'Something went wrong'
+    const { statusCode=500 }=err;
+    if (!err.message) err.message='Something went wrong'
     res.status(statusCode).render('error', { err })
 });
+
+
 
 app.listen(3000, () => {
     console.log('Serving on Port 3000')
