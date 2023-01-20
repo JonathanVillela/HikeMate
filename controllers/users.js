@@ -31,9 +31,11 @@ module.exports.login = (req, res) => {
     res.redirect(redirectUrl);
 };
 
-module.exports.logout = (req, res) => {
-    req.logout();
-    req.flash('success', 'Bye! Enjoy your hike.');
-    res.redirect('/trails');
-};
+module.exports.logout = (req, res, next) => {
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      req.flash('success', "Bye! Enjoy your hike.");
+      res.redirect('/trails');
+    });
+  }; 
 

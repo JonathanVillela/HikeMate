@@ -12,6 +12,8 @@ ImageSchema.virtual('thumbnail').get(function () {
     return this.url.replace('.upload', '/upload/w_200');
 });
 
+const opts = { toJSON: { virtuals: true } };
+
 const TrailSchema = new Schema({
     title: String,
     images: [ImageSchema],
@@ -40,6 +42,12 @@ const TrailSchema = new Schema({
             ref: 'Review'
         }
     ]
+}, opts);
+
+TrailSchema.virtual('properties.popUpMarkup').get(function() {
+    return `
+    <strong><a href="/trails/${this._id}">${this.title}</a></strong>
+    <p>${this.description.substring(0,40)}...</p>`
 });
 
 //Deletes trail reviews when corresponding trail is deleted 

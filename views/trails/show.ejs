@@ -1,6 +1,5 @@
 <% layout('layouts/boilerplate')%>
-    <link rel="stylesheet" href="/public/stylesheets/stars.css">
-
+<link rel="stylesheet" type="text/css" href="/stylesheets/stars.css">
 
 
     <div class="row">
@@ -58,7 +57,7 @@
 
         </div>
         <div class="col-6">
-            <div id='map' style='width: 100%; height: 300px;'></div>
+            <div id='map'></div>
 
             <% if(currentUser){ %>
                 <h2>Leave a Review</h2>
@@ -68,13 +67,13 @@
                 <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
             </div> -->
                     <fieldset class="starability-basic">
-                        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
-                            aria-label="No rating." />
+                        <!-- <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
+                            aria-label="No rating." /> -->
                         <input type="radio" id="first-rate1" name="review[rating]" value="1" />
                         <label for="first-rate1" title="Terrible">1 star</label>
                         <input type="radio" id="first-rate2" name="review[rating]" value="2" />
                         <label for="first-rate2" title="Not good">2 stars</label>
-                        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                        <input type="radio" id="first-rate3" name="review[rating]" value="3" checked/>
                         <label for="first-rate3" title="Average">3 stars</label>
                         <input type="radio" id="first-rate4" name="review[rating]" value="4" />
                         <label for="first-rate4" title="Very good">4 stars</label>
@@ -82,7 +81,8 @@
                         <label for="first-rate5" title="Amazing">5 stars</label>
                     </fieldset>
                     <div class="mb-3">
-                        <label class="form-label" for="body">Review Text</label>
+                        <br>
+                        <label class="form-label" for="body">Leave a Review</label>
                         <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3"
                             required></textarea>
                         <div class="valid-feedback">
@@ -117,8 +117,29 @@
     </div>
 
     <script>
-        const mapToken='<%-process.env.MAPBOX_TOKEN%>';
-        const trail= <%- JSON.stringify(trail)%>
+     
+        const mapToken ='<%- process.env.MAPBOX_TOKEN%>'
+        const trail = <%- JSON.stringify(trail)%>
+       
+mapboxgl.accessToken=mapToken;
+console.log("testing", mapboxgl)
+const map=new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v10', // stylesheet location
+    center: trail.geometry.coordinates, // starting position [lng, lat]
+    zoom: 10 // starting zoom
+});
+
+new mapboxgl.Marker()
+    .setLngLat(trail.geometry.coordinates)
+    .setPopup(
+        new mapboxgl.Popup({ offset: 25 })
+            .setHTML(
+                `<h3>${trail.title}</h3><p>${trail.location}</p>`
+            )
+    )
+    .addTo(map)
+
     </script>
 
-    <script src="/public/showPageMap.js"></script>
+    <!-- <script src="../trails/showPageMap.js"></script> -->
