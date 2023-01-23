@@ -19,23 +19,27 @@ const helmet = require('helmet');
 
 const mongoSanitize = require('express-mongo-sanitize');
 
-
 const userRoutes=require('./routes/users');
 const trailRoutes=require('./routes/trails');
 const reviewRoutes=require('./routes/reviews');
 
 const MongoStore = require("connect-mongo")
-const dbUrl = 'mongodb://localhost:27017/HikeMate';
-// process.env.DB_URL
+const dbUrl = process.env.DB_URL
+// 'mongodb://localhost:27017/HikeMate';
 
 
+mongoose.connect(dbUrl, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+});
 
-mongoose.connect('mongodb://localhost:27017/HikeMate')
-const db=mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-    console.log('database connected');
-})
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+    console.log("Database connected");
+});
 
 
 const app=express();
@@ -50,6 +54,7 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize())
 
+const secret ='somethingsecret';
 
 const store = MongoStore.create({
     mongoUrl: dbUrl,
