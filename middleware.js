@@ -1,5 +1,5 @@
 const { trailSchema, reviewSchema } = require('./validationSchema');
-const ExpressError = require('./utils/expressError');
+const ExpressError = require('./utils/ExpressError');
 const Trail = require('./models/trail');
 const Review = require('./models/review');
 
