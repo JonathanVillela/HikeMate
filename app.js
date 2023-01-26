@@ -30,7 +30,6 @@ const dbUrl = process.env.DB_URL
 
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
-    useCreateIndex: true,
     useUnifiedTopology: true,
     useFindAndModify: false
 });
