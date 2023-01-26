@@ -24,18 +24,10 @@ const trailRoutes=require('./routes/trails');
 const reviewRoutes=require('./routes/reviews');
 
 const MongoStore = require("connect-mongo")
-const dbUrl =process.env.DB_URL
-// 'mongodb://localhost:27017/HikeMate';
+const dbUrl =process.env.DB_URL || 'mongodb://localhost:27017/HikeMate';
 
-// 
-
-
+mongoose.set('strictQuery', false);
 mongoose.connect(dbUrl);
-// mongoose.connect(dbUrl, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     useFindAndModify: false
-// });
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
