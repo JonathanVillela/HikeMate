@@ -172,7 +172,7 @@ app.use((req, res, next) => {
 
 app.use('/', userRoutes);
 app.use('/trails', trailRoutes);
-app.use('trails/:id/reviews', reviewRoutes);
+app.use('/trails/:id/reviews', reviewRoutes);
 
 app.get('/', (req, res) => {
     res.render('home')
